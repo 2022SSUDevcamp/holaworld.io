@@ -14,7 +14,7 @@
 - 스키마 : `project_` 로 이름 설정
 - 테이블 : `tbl_crawling_data`로 설정
 
-- SQL문
+- SQL문( 초기 스키마 및 테이블 설정 - workbench )
 ```
 # -- auto-generated definition
 # CREATE TABLE tbl_crawling_data
