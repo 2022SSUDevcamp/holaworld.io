@@ -20,18 +20,17 @@ engine = create_engine(
 # -- auto-generated definition
 # CREATE TABLE tbl_crawling_data
 # (
-#   id      int AUTO_INCREMENT PRIMARY KEY, # 자동으로 생성되는 id 
-        # ( 원래 태그 내에 id가 있었으나 Base 클래스에 id 있어서 충돌 발생 )
-#   name    varchar(255)  NULL, # 분야 구분 ( 마감 : 0 / 프로젝트 : 1 / 스터디 : 2 ) 
-#   content varchar(1024) NULL, # 제목 ( title , 텍스트 )
-#   additionals varchar(1024) NULL, # ( 사용하는 언어 저장 , 하나의 문자열로 저장 - 구분자를 &으로 설정 )
-#   startDate datetime NULL # ( 시작 날짜 )
+#   id      int AUTO_INCREMENT
+#     PRIMARY KEY,
+#   name    varchar(255)  NULL,
+#   content varchar(1024) NULL
 # );
 
 ############# 여기까지 OK
 
-from sqlalchemy import Table, Column, Integer, String
+from sqlalchemy import Table, Column, Integer, String, DateTime
 from sqlalchemy.orm import registry, Session  
+from sqlalchemy.sql import func
 
 # id : 프로젝트 Serial No
         # name : 모집 종류 / 프로젝트(1) / 스터디(2) / 모집됨(0)
@@ -49,7 +48,7 @@ class TblCrawlingData(Base):
     name = Column(String(255))
     content = Column(String(1024))
     additional = Column(String(1024))
-    startDate = datetime
+    startDate = Column(DateTime(timezone=True), default=func.now())
 
     def __init__(self, name, content, additional, startDate):
         self.name = name
