@@ -42,8 +42,8 @@ if __name__ == "__main__":
         #print(iden)
 
         # name , 1이면 프로젝트 , 2이면 스터디 , 모집 완료되면 0
-        isClosed = datum.get('isCLosed')
-        name = datum.get("name")
+        isClosed = datum.get('isClosed')
+        name = datum.get("type") # 2 , 1이지만 , 문자열
         if name == '1':
             name = 'Project'
         elif name == '2':
@@ -70,5 +70,3 @@ if __name__ == "__main__":
         # content : 텍스트
         # additional : 언어 리스트
         # startDate : 시작 예정일
-
-
