@@ -12,9 +12,10 @@
 
 ### SQL 스키마 - 테이블
 - 스키마 : `project_` 로 이름 설정
-- 테이블 : `tbl_crawling_data'로 설정
+- 테이블 : `tbl_crawling_data`로 설정
+
+- SQL문
 ```
-# SQL문
 # -- auto-generated definition
 # CREATE TABLE tbl_crawling_data
 # (
