@@ -13,6 +13,7 @@ if __name__ == "__main__":
     response = requests.get(url)
 
     data = json.loads(response.text)
+    repo = Repo()
 
     for datum in data:
         
@@ -22,13 +23,6 @@ if __name__ == "__main__":
         # endDate : 없는 듯
         # comments = 댓글 딕셔너리 리스트
         # id = 스터디에 지정된 id primary key 값
-
-        #print(datum.get('isClosed')) # 마감 여부
-        #print(datum.get("language")) # 사용 언어
-        #print(datum.get("title")) # 타이틀
-        #print(datum.get("hashTags")) # 해시태그 - 대부분 없다고 나옴
-        #print(datum.get("startDate")) # 시작 날짜
-        #print("----")
 
         # print(datum.keys()) # 각 항목의 key를 얻을 수 있다.
 
@@ -56,17 +50,9 @@ if __name__ == "__main__":
 
         # startDate : 시작 날짜 / # 2021-11-23T02:50:35.772Z
         startDate = datum.get("startDate")
-        startDate = startDate[:10]
-        #Time = startDate[11:19]
-        #startDate = Date + " " + Time
-        startDate = datetime.strptime(startDate, '%Y-%m-%d')
-        #print(startDate, type(startDate))
+        startDate = startDate[:10] # 날짜
+        #Time = startDate[11:19] # 시간 
+        #startDate = Date + " " + Time # 시간 + 날짜
+        startDate = datetime.strptime(startDate, '%Y-%m-%d') # 날짜만 생성하기로 하였습니다.
 
-        repo = Repo()
         repo.add_crawling_data(name, content, additional, startDate)
-
-        # id : 프로젝트 Serial No
-        # name : 모집 종류 / 프로젝트(1) / 스터디(2) / 모집됨(0)
-        # content : 텍스트
-        # additional : 언어 리스트
-        # startDate : 시작 예정일
