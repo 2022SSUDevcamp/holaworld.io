@@ -1,20 +1,11 @@
 import requests
 import json
 from sqlalchemy import create_engine, text
-from sqlalchemy import Table, Column, Integer, String
+from sqlalchemy import Table, Column, Integer, String, DateTime
 from sqlalchemy.orm import registry, Session 
 from datetime import datetime
-
+from sqlalchemy.sql import func
 from sqlalchemy.ext.declarative import declarative_base
-
-Base = declarative_base()
-
-# mysql+pymysql://<username>:<password>@<host>/<dbname>[?<options>]
-engine = create_engine(
-    "mysql+pymysql://username:password@localhost:3306/project_?charset=utf8mb4",
-    echo=True,
-    future=True,
-)
 
 # SQL문
 # -- auto-generated definition
@@ -26,43 +17,28 @@ engine = create_engine(
 #   content varchar(1024) NULL
 # );
 
-############# 여기까지 OK
 
-from sqlalchemy import Table, Column, Integer, String, DateTime
-from sqlalchemy.orm import registry, Session  
-from sqlalchemy.sql import func
-
-# id : 프로젝트 Serial No
-        # name : 모집 종류 / 프로젝트(1) / 스터디(2) / 모집됨(0)
-        # content : 텍스트
-        # additional : 언어 리스트
-        # startDate : 시작 예정일
-
-# NameError: name 'Base' is not defined
+base = declarative_base()
 # class 클래스이름(상속클래스):
-class TblCrawlingData(Base):
+class TblCrawlingData(base):
     __tablename__ = "tbl_crawling_data"
 
-    # id는 Base 클래스에 정의되어 있다.
-    id = Column(Integer, primary_key=True)
-    name = Column(String(255))
-    content = Column(String(1024))
-    additional = Column(String(1024))
-    startDate = Column(DateTime(timezone=True), default=func.now())
+    # id는 base 클래스에 정의되어 있다.
+    id = Column(Integer, primary_key=True) # id : base 클래스에 정의 - 자동으로 번호 증가하며 부여
+    name = Column(String(255)) # name : 분야 / ( 프로젝트 / 텍스트 / 마감 )
+    content = Column(String(1024)) # 제목 ( title )
+    additional = Column(String(1024)) # 추가 정보 - 사용하는 언어 혹은 프레임워크  리스트
+    startDate = Column(DateTime(timezone=True), default=func.now()) # 시작 예정일
 
-    def __init__(self, name, content, additional, startDate):
-        self.name = name
-        self.content = content
-        self.additional = additional
-        self.startDate = startDate
+    #def __init__(self, name, content, additional, startDate):
+    #    self.name = name
+    #    self.content = content
+    #    self.additional = additional
+    #    self.startDate = startDate
 
     # 객체를 문자열로 반환하는 함수
     def __repr__(self):
         return f"User(id={self.id!r}, name={self.name!r}, content={self.content!r}, additional={self.additional!r}, startDate={self.additional!r})"
-
-# 에러 발생
-# sqlalchemy.orm.exc.UnmappedInstanceError: Class 'temp_DB.TblCrawlingData' is not mapped
-
 
 # -- 코드를 하나로 모으면 좋은 이유 ---
 class Repo(object):
@@ -85,6 +61,7 @@ class Repo(object):
         self.session.add(TblCrawlingData(name=name, content=content, additional=additional, startDate=startDate))
         self.session.commit()
 
+    # SLACK BOT으로 전달 : 아직 미구현 
     def get_crawling_data(self, name: str):
         query = self.session.query(TblCrawlingData)
         query = query.filter(TblCrawlingData.name == name)
