@@ -47,7 +47,7 @@ if __name__ == '__main__':
         message += f'] ({date})\n'        
         message += datum.content
         message += '\n'
-        message += f'Link : https://holaworld.io/{datum.name.lower()}/{datum.link}\n\n'
+        message += f'Link : https://holaworld.io/study/{datum.link}\n\n'
     message += "-----------------------------\n"
     message += "추가 정보 : https://holaworld.io"
     client.chat_postMessage(channel=SLACK_CHANNEL, text=message)
