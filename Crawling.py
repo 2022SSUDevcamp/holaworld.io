@@ -2,9 +2,6 @@ import requests
 import json
 from temp_DB import Repo
 from temp_DB import TblCrawlingData
-from sqlalchemy import create_engine, text
-from sqlalchemy import Table, Column, Integer, String
-from sqlalchemy.orm import registry, Session 
 from datetime import datetime
 
 if __name__ == "__main__":
@@ -55,4 +52,8 @@ if __name__ == "__main__":
         #startDate = Date + " " + Time # 시간 + 날짜
         startDate = datetime.strptime(startDate, '%Y-%m-%d') # 날짜만 생성하기로 하였습니다.
 
-        repo.add_crawling_data(name, content, additional, startDate)
+        # 링크 = holaworld.io/study혹은project/id명 - name 변수를 lower() 처리하여 조합해야 함
+        id = datum.get('id')
+        link = id # 일단 id만 저장하고 , 나중에 불러올 때 링크를 조합할 예정
+
+        repo.add_crawling_data(name, content, additional, startDate, link)
