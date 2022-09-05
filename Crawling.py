@@ -1,6 +1,6 @@
 import requests
 import json
-from temp_DB import Repo
+from DB import Repo
 from DB import TblCrawlingData
 from datetime import datetime
 
