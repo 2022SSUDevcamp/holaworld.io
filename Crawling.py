@@ -1,7 +1,7 @@
 import requests
 import json
 from temp_DB import Repo
-from temp_DB import TblCrawlingData
+from DB import TblCrawlingData
 from datetime import datetime
 
 if __name__ == "__main__":
