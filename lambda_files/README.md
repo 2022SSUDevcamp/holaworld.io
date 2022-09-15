@@ -52,15 +52,32 @@
   - studyToSlack() 함수에서 호출되어 data 변수에 저장된다.
  
 ## 데이터베이스
-- aws_rds 데이터베이스 endpoint 필요하면 Slack에 요청 올려주세요. DM으로 보내드리겠습니다.
+- aws_rds 데이터베이스 endpoint, 스키마, 테이블명 필요하면 Slack에 요청 올려주세요. DM으로 보내드리겠습니다.
 ```
 # SQL문
 #CREATE TABLE tbl_crawling_data (
 #    id INTEGER AUTO_INCREMENT PRIMARY KEY,
-#    name VARCHAR(255),
-#    content VARCHAR(255),
-#    link VARCHAR(1024),
-#    additional VARCHAR(1024),
-#    startDate DATETIME
+#    name VARCHAR(255), // study , project
+#    content VARCHAR(255), // 제목 텍스트
+#    link VARCHAR(1024), // 링크( Slack.py 에서 조합해서 링크를 문자열에 생성합니다. )
+#    additional VARCHAR(1024), ( 사용하는 언어의 조합 - Slack.py에서 &문자를 기반으로 split하여 리스트로 변환 )
+#    startDate DATETIME( 마감 날짜 )
 #);
 ```
+--------------------------------------------------------------------------------------------\
+여기까지가 제가 만든 코드입니다.
+
+AWS Lambda에서 함수를 만들고 실행한 결과
+1. Crawl 과정에서 처음 한두번은 크롤링이 정상적으로 작동하나
+  - 여러 번 반복하면 오래 걸리면서 연결 timeout이 발생합니다.
+2. Slack 알림 과정에서 
+  - 오프라인으로 aws_rds 열람하여 콘솔 출력 가능합니다.
+  - aws_lambda에서 단순한 문자열 slack으로 전송 가능합니다.
+  - 그러나 rds로부터 데이터를 가져와서 slack으로 전송 시 
+    - 연결 과정에 timeout 발생하고, 실패합니다.
+ 
+ 저는 크롤링을 위한 lambda 함수를 따로 만들고, <br>
+ slack 알림을 위한 lambda 함수를 따로 만들었습니다. <br>
+ 하지만 두 함수에서 같은 rds를 접근하여, 데이터를 저장하고 추출하는 일을 수행하게끔 <br>
+ 하려고 코드를 작성하였습니다. 그러나 작동하지 않습니다. <br>
+ 멘토님 환경에서는 가능할까요,,??? 그리고 문제가 무엇인지 알 수 있을까요???
