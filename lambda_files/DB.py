@@ -46,7 +46,7 @@ class Repo(object):
     def __init__(self):
         self.engine = create_engine(
             # mysql+pymysql://<username>:<password>@<host>/<dbname>[?<options>]
-            "mysql+pymysql://root:1232123a-@crawl-database.cfdkhugbyfzl.ap-northeast-2.rds.amazonaws.com:3306/new_schema?charset=utf8mb4",
+            "mysql+pymysql://username:passwd@host:3306/dbname?charset=utf8mb4",
             echo=True,
             future=True,
         )
